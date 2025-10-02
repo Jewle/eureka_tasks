@@ -1,14 +1,29 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include <QPushButton>
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+: QMainWindow(parent)
 {
-    ui->setupUi(this);
+    QWidget *centralWidget = new QWidget(this);
+    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+
+    QPushButton *openSecondWindowButton = new QPushButton("Open Second Window", this);
+    layout->addWidget(openSecondWindowButton, 0, Qt::AlignCenter);
+
+    centralWidget->setLayout(layout);
+    setCentralWidget(centralWidget);
+
+    connect(openSecondWindowButton, &QPushButton::clicked, this, &MainWindow::on_openSecondWindowButton_clicked);
+
+    secondWindow = new SecondWindow(this);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+}
+
+void MainWindow::on_openSecondWindowButton_clicked()
+{
+    secondWindow->show();
 }
